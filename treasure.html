@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Find treasure</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/SunlistOG/FindTreasure/main/favicon.png" type="image/svg">
+</head>
+
+<body>
+    <h1 id="heading">Find the buried treasure!</h1>
+    <img id="map" width="500" height="500"
+        src="https://raw.githubusercontent.com/SunlistOG/FindTreasure/main/treasuremap.png">
+    <p id="distance"></p>
+    <p id="quantityOfClicks"></p>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.js"
+        integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+
+    <script>
+        // JS code runs only after the web page is fully loaded
+        $(document).ready(function () {
+
+            // Initialize the number of clicks
+            let clicks = 35;
+
+            // Setup width and height
+            let width = 500
+            let height = 500
+
+            // Get the random digit from 0 to size
+            let getRandomNumber = function (size) {
+                return Math.floor(Math.random() * size)
+            }
+
+            // Count distance between event and target
+            // event - click location, target - treasure location
+            let getDistance = function (event, target) {
+                let diffX = event.offsetX - target.x;
+                let diffY = event.offsetY - target.y;
+                return Math.sqrt((diffX * diffX) + (diffY * diffY));
+            }
+
+            // Get the string with answer, how close player clicked near a treasure
+            let getDistanceHint = function (distance) {
+                if (distance < 25) return "Boiling hot!"
+                else if (distance < 40) return "Really hot!"
+                else if (distance < 60) return "Hot"
+                else if (distance < 80) return "Warm"
+                else if (distance < 200) return "Cold"
+                else if (distance < 350) return "Really cold"
+                else if (distance < 500) return "Really really cold"
+                else return "Freezing!"
+            }
+
+            // Creating a random target location
+            let target = {
+                x: getRandomNumber(width),
+                y: getRandomNumber(height)
+            }
+
+            // Adding manipulator of clicks for img element
+            $('#map').click(function (event) {
+                if (clicks > 0) {
+                    clicks--;
+
+                    // Getting a distance from event and target
+                    let distance = getDistance(event, target);
+
+                    // Converting distance to text hint
+                    let distanceHint = getDistanceHint(distance);
+
+                    // Updating #distance-element with new text hint
+                    $('#distance').text(distanceHint);
+
+                    // Updating #quantityOfClicks with remaining clicks
+                    let quantityOfClicks = "You have " + clicks + " of 35 clicks";
+                    $('#quantityOfClicks').text(quantityOfClicks);
+
+                    // If click has been made very close,
+                    // say for player that he/she won
+                    if (distance <= 15) {
+                        alert("Good job! You found the treasure in " + (35 - clicks) + " clicks")
+                        clicks = 35; // Update clicks to 35
+                    }
+
+
+                    // Add the limitation of clicks and display the text "Game over! Please, try again!"
+                    if (clicks === 0) {
+                        clicks = 35;
+                        return alert("Game over! Please, try again!");
+                    }
+                }
+            })
+        });
+
+    </script>
+</body>
+
+</html>
