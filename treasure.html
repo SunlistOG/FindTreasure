@@ -52,11 +52,16 @@
                 else return "Freezing!"
             }
 
-            // Creating a random target location
-            let target = {
-                x: getRandomNumber(width),
-                y: getRandomNumber(height)
+            // Function to generate new random coordinates for the treasure
+            function generateRandomTreasureCoordinates() {
+                return {
+                    x: getRandomNumber(width),
+                    y: getRandomNumber(height)
+                };
             }
+
+            // Initialize the treasure's coordinates
+            let target = generateRandomTreasureCoordinates();
 
             // Adding manipulator of clicks for img element
             $('#map').click(function (event) {
@@ -80,7 +85,12 @@
                     // say for player that he/she won
                     if (distance <= 15) {
                         alert("Good job! You found the treasure in " + (35 - clicks) + " clicks")
-                        clicks = 35; // Update clicks to 35
+
+                        // Update clicks to 35
+                        clicks = 35;
+
+                        // Generate new treasure coordinates
+                        target = generateRandomTreasureCoordinates();
                     }
 
 
@@ -88,6 +98,7 @@
                     if (clicks === 0) {
                         clicks = 35;
                         return alert("Game over! Please, try again!");
+                        target = generateRandomTreasureCoordinates();
                     }
                 }
             })
