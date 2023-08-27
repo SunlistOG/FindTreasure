@@ -84,7 +84,8 @@
                     // If click has been made very close,
                     // say for player that he/she won
                     if (distance <= 15) {
-                        alert("Good job! You found the treasure in " + (35 - clicks) + " clicks")
+                        let clickString = (35 - clicks === 1) ? "click" : "clicks";
+                        alert("Good job! You found the treasure in " + (35 - clicks) + " " + clickString)
 
                         // Update clicks to 35
                         clicks = 35;
