@@ -8,10 +8,19 @@
 
 <body>
     <h1 id="heading">Find the buried treasure!</h1>
-    <img id="map" width="500" height="500"
-        src="https://raw.githubusercontent.com/SunlistOG/FindTreasure/main/treasuremap.png">
+    <div>
+        <img id="map" width="450" height="450" alt="Treasure map"
+            src="https://raw.githubusercontent.com/SunlistOG/FindTreasure/main/treasuremap.png">
+        <div id="game-instructions">
+            <!-- Your existing instructions here -->
+            <button id="hintButton">Get a Hint</button>
+        </div>
+    </div>
+
     <p id="distance"></p>
     <p id="quantityOfClicks"></p>
+
+    <div id="markerContainer"></div>
 
     <script src="https://code.jquery.com/jquery-3.7.0.js"
         integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
@@ -24,8 +33,8 @@
             let clicks = 35;
 
             // Setup width and height
-            let width = 500
-            let height = 500
+            let width = 450
+            let height = 450
 
             // Get the random digit from 0 to size
             let getRandomNumber = function (size) {
@@ -48,7 +57,7 @@
                 else if (distance < 80) return "Warm"
                 else if (distance < 200) return "Cold"
                 else if (distance < 350) return "Really cold"
-                else if (distance < 500) return "Really really cold"
+                else if (distance < 450) return "Really really cold"
                 else return "Freezing!"
             }
 
@@ -62,6 +71,13 @@
 
             // Initialize the treasure's coordinates
             let target = generateRandomTreasureCoordinates();
+
+            // Add a click event handler for the hint button
+            $('#hintButton').click(function () {
+                // Display a hint about the general direction of the treasure
+                $('#distance').text("Hint: Try looking " + (target.x < width / 2 ? "right" : "left")
+                    + " and " + (target.y < height / 2 ? "down" : "up") + ".");
+            });
 
             // Adding manipulator of clicks for img element
             $('#map').click(function (event) {
@@ -94,7 +110,6 @@
                         target = generateRandomTreasureCoordinates();
                     }
 
-
                     // Add the limitation of clicks and display the text "Game over! Please, try again!"
                     if (clicks === 0) {
                         clicks = 35;
@@ -104,8 +119,6 @@
                 }
             })
         });
-
     </script>
 </body>
-
 </html>
